@@ -1,0 +1,2 @@
+[app]
+app-server ansible_host=3.110.106.235 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/devops-project-key.pem

@@ -1,0 +1,31 @@
+---
+- name: Deploy Docker application
+  hosts: app
+  become: true
+
+  vars:
+    app_directory: /opt/devops-app
+    repository: "https://github.com/Vijay-savu/aws-infrastructure-automation.git"
+
+  tasks:
+
+    - name: Create application directory
+      file:
+        path: "{{ app_directory }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: "0755"
+
+    - name: Clone application repository
+      git:
+        repo: "{{ repository }}"
+        dest: "{{ app_directory }}"
+        version: main
+        force: true
+
+    - name: Build and start Docker application
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_directory }}/app"
+        state: present
+        build: always
