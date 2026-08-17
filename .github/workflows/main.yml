@@ -29,12 +29,14 @@ jobs:
           ssh -i ~/.ssh/devops-project-key.pem ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             set -e
 
-            cd /opt/devops-app
+            sudo chown -R ubuntu:ubuntu /opt/devops-app
 
+            git config --global --add safe.directory /opt/devops-app
+
+            cd /opt/devops-app
             git pull origin main
 
             cd app
-
             docker compose up -d --build
 
             docker ps
