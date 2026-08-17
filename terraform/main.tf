@@ -1,6 +1,6 @@
-# ============================================================
+
 # VPC
-# ============================================================
+
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
@@ -11,9 +11,9 @@ resource "aws_vpc" "main" {
 }
 
 
-# ============================================================
+
 # PUBLIC SUBNET
-# ============================================================
+
 
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
@@ -27,9 +27,9 @@ resource "aws_subnet" "public" {
 }
 
 
-# ============================================================
+
 # INTERNET GATEWAY
-# ============================================================
+
 
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
@@ -40,9 +40,9 @@ resource "aws_internet_gateway" "main" {
 }
 
 
-# ============================================================
+
 # PUBLIC ROUTE TABLE
-# ============================================================
+
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
@@ -58,9 +58,8 @@ resource "aws_route_table" "public" {
 }
 
 
-# ============================================================
+
 # ROUTE TABLE ASSOCIATION
-# ============================================================
 
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
@@ -68,9 +67,8 @@ resource "aws_route_table_association" "public" {
 }
 
 
-# ============================================================
+
 # SECURITY GROUP
-# ============================================================
 
 resource "aws_security_group" "app" {
   name        = "devops-app-sg"
@@ -109,9 +107,9 @@ resource "aws_security_group" "app" {
 }
 
 
-# ============================================================
+
 # UBUNTU AMI
-# ============================================================
+
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -130,9 +128,9 @@ data "aws_ami" "ubuntu" {
 }
 
 
-# ============================================================
+
 # APPLICATION EC2
-# ============================================================
+
 
 resource "aws_instance" "app" {
   ami                         = data.aws_ami.ubuntu.id
