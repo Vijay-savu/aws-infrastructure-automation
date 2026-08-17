@@ -2,12 +2,16 @@
 terraform/.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.*
-terraform/crash.log
-terraform/crash.*.log
+terraform/.terraform.lock.hcl
 
-# Sensitive files
+# Terraform variable files
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+# SSH private keys
 *.pem
 *.key
+*.pub
 
 # Ansible
 ansible/*.retry
@@ -15,3 +19,10 @@ ansible/*.retry
 # OS files
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
