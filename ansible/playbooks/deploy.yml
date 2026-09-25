@@ -1,0 +1,28 @@
+- name: Deploy the application
+  hosts: tier_application
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Install Docker
+      ansible.builtin.dnf:
+        name: docker
+        state: present
+
+    - name: Start Docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Copy application page
+      ansible.builtin.copy:
+        src: ../../docker/index.html
+        dest: /opt/three-tier-app/index.html
+        mode: "0644"
+
+    - name: Replace application container
+      ansible.builtin.shell: |
+        docker rm -f three-tier-app 2>/dev/null || true
+        docker run -d --name three-tier-app --restart unless-stopped -p 8080:80 -v /opt/three-tier-app/index.html:/usr/share/nginx/html/index.html:ro nginx:alpine
+      changed_when: true
